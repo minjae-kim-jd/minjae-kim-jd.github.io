@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적립식 저축 만기 계산기</title>
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+    background: #f4f6f8;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 24px;
+    max-width: 440px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px 0;
+    text-align: center;
+  }
+  .sub {
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 16px;
+  }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+  }
+  input:focus {
+    border-color: #4a7dff;
+    box-shadow: 0 0 0 2px rgba(74,125,255,0.2);
+  }
+  button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #4a7dff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button:hover { background: #3a6ae0; }
+  .result {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f0f4ff;
+    border-radius: 10px;
+    display: none;
+  }
+  .result.show { display: block; }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.95rem;
+  }
+  .row.total {
+    border-top: 1px solid #c8d4f5;
+    margin-top: 6px;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .error {
+    color: #d33;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    display: none;
+  }
+  .error.show { display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>적립식 저축 만기 계산기</h1>
+  <div class="sub">매달 같은 금액을 저축할 때 만기에 받는 돈을 단리로 계산합니다</div>
+
+  <label for="monthlyAmount">월 납입액 (원)</label>
+  <input type="text" id="monthlyAmount" inputmode="numeric" placeholder="예: 100,000" oninput="formatMonthlyInput(this)">
+
+  <label for="months">기간 (개월)</label>
+  <input type="number" id="months" placeholder="예: 12" min="1" step="1">
+
+  <label for="rate">연이율 (%)</label>
+  <input type="number" id="rate" placeholder="예: 3" min="0" step="0.01">
+
+  <div class="error" id="errorBox"></div>
+
+  <button onclick="calculate()">계산하기</button>
+
+  <div class="result" id="resultBox">
+    <div class="row"><span>원금 합계</span><span id="principalResult"></span></div>
+    <div class="row"><span>세전 이자</span><span id="interestResult"></span></div>
+    <div class="row total"><span>세전 만기 금액</span><span id="totalResult"></span></div>
+  </div>
+</div>
+
+<script>
+function formatWon(n) {
+  return n.toLocaleString('ko-KR') + '원';
+}
+
+function formatMonthlyInput(input) {
+  const digitsOnly = input.value.replace(/[^0-9]/g, '');
+  input.value = digitsOnly === '' ? '' : Number(digitsOnly).toLocaleString('ko-KR');
+}
+
+function showError(msg) {
+  const errorBox = document.getElementById('errorBox');
+  const resultBox = document.getElementById('resultBox');
+  errorBox.textContent = msg;
+  errorBox.classList.add('show');
+  resultBox.classList.remove('show');
+}
+
+function calculate() {
+  const errorBox = document.getElementById('errorBox');
+  const resultBox = document.getElementById('resultBox');
+  errorBox.classList.remove('show');
+  resultBox.classList.remove('show');
+
+  const rawMonthly = document.getElementById('monthlyAmount').value.replace(/,/g, '').trim();
+  const rawMonths = document.getElementById('months').value.trim();
+  const rawRate = document.getElementById('rate').value.trim();
+
+  if (rawMonthly === '' || rawMonths === '' || rawRate === '') {
+    showError('모든 칸을 입력해 주세요');
+    return;
+  }
+
+  const monthlyAmount = Number(rawMonthly);
+  const months = Number(rawMonths);
+  const rate = Number(rawRate);
+
+  if (!Number.isFinite(monthlyAmount) || !Number.isFinite(months) || !Number.isFinite(rate) ||
+      monthlyAmount <= 0 || months <= 0 || rate <= 0) {
+    showError('0보다 큰 숫자를 입력해 주세요');
+    return;
+  }
+
+  if (months > 600) {
+    showError('기간은 600개월까지 입력할 수 있습니다');
+    return;
+  }
+
+  // 원금 합계 = 월납입액 x 개월 수
+  const principal = monthlyAmount * months;
+
+  // 세전 이자 = 월납입액 x (개월수 x (개월수+1) / 2) x (연이율 / 100 / 12)
+  const interest = monthlyAmount * (months * (months + 1) / 2) * (rate / 100 / 12);
+
+  // 세전 만기 금액 = 원금 합계 + 세전 이자
+  const total = principal + interest;
+
+  // 원 미만(소수점) 버림
+  const principalFloor = Math.floor(principal);
+  const interestFloor = Math.floor(interest);
+  const totalFloor = Math.floor(total);
+
+  document.getElementById('principalResult').textContent = formatWon(principalFloor);
+  document.getElementById('interestResult').textContent = formatWon(interestFloor);
+  document.getElementById('totalResult').textContent = formatWon(totalFloor);
+
+  resultBox.classList.add('show');
+}
+</script>
+</body>
+</html>

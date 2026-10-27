@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>김민재 소개</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-navy: #1F2A5F;
+      --color-gold: #C9A227;
+      --color-bg: #F5F5F6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--color-bg);
+      font-family: 'Noto Sans KR', sans-serif;
+      color: #222222;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    header {
+      background-color: var(--color-navy);
+      color: #FFFFFF;
+      text-align: center;
+      padding: 72px 24px;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 3px solid var(--color-gold);
+    }
+
+    .header-text {
+      text-align: left;
+    }
+
+    header h1 {
+      margin: 0 0 12px 0;
+      font-size: 48px;
+      font-weight: 900;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 18px;
+      color: var(--color-gold);
+      font-weight: 500;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    section {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: var(--color-navy);
+      font-size: 22px;
+      font-weight: 700;
+      border-left: 4px solid var(--color-gold);
+      padding-left: 12px;
+    }
+
+    section p,
+    section li {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table tr {
+      border-bottom: 1px solid #EEEEEE;
+    }
+
+    table tr:last-child {
+      border-bottom: none;
+    }
+
+    table td {
+      padding: 12px 8px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    table td:first-child {
+      width: 80px;
+      color: var(--color-gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    a {
+      color: var(--color-navy);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-gold);
+    }
+
+    .site-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 28px;
+      background-color: var(--color-navy);
+      color: #FFFFFF;
+      border: 2px solid #FFFFFF;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 2px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 40px 16px;
+      }
+
+      .header-inner {
+        flex-direction: column-reverse;
+        gap: 16px;
+      }
+
+      .header-text {
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+
+      header p {
+        font-size: 15px;
+      }
+
+      main {
+        padding: 24px 16px;
+      }
+
+      section {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      section h2 {
+        font-size: 19px;
+      }
+
+      section p,
+      section li,
+      table td {
+        font-size: 15px;
+      }
+
+      .site-button {
+        display: block;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 이름과 한 줄 소개 -->
+  <header>
+    <div class="header-inner">
+      <div class="header-text">
+        <h1>김민재</h1>
+        <p>보험사 지점장 · 법인컨설팅 전문</p>
+      </div>
+      <img src="me.png" alt="김민재" class="profile-photo">
+    </div>
+  </header>
+
+  <main>
+
+  <!-- 2. 자기소개 -->
+  <section>
+    <h2>자기소개</h2>
+    <p>
+      25년간 보험업계에서 법인컨설팅 전문가로 활동해 온 김민재입니다.
+      현재 KB라이프파트너스 지점장으로 재직하며, 기업 대표님들께 신뢰할 수 있는
+      법인컨설팅 서비스를 제공하고 있습니다.
+    </p>
+  </section>
+
+  <!-- 3. 경력 -->
+  <section>
+    <h2>경력</h2>
+    <table>
+      <tr>
+        <td>-</td>
+        <td>푸르덴셜 지점장</td>
+      </tr>
+      <tr>
+        <td>-</td>
+        <td>한화 프리미어채널 단장</td>
+      </tr>
+      <tr>
+        <td>현재</td>
+        <td>KB라이프파트너스 지점장</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- 4. 관심 분야 -->
+  <section>
+    <h2>관심 분야</h2>
+    <ul>
+      <li>골프</li>
+      <li>낚시</li>
+    </ul>
+  </section>
+
+  <!-- 5. 연락처 -->
+  <section>
+    <h2>연락처</h2>
+    <p>이메일: <a href="mailto:tmdhzk@naver.com">tmdhzk@naver.com</a></p>
+    <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="site-button">회사 홈페이지</a>
+  </section>
+
+  </main>
+
+</body>
+</html>
